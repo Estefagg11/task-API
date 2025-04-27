@@ -41,21 +41,21 @@ function RegisterPage(){// componente de registro
                 className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md"
                 placeholder="Username"
               />
-              {errors.name && <span className="text-red-500">Name is required</span>}
+              {errors.name && <span className="text-red-500">Nombre es requerido</span>}
               <input
                 type="email"
                 {...register("email", { required: true })}
                 className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md"
                 placeholder="Email"
               />
-              {errors.email && <span className="text-red-500">Email is required</span>}
+              {errors.email && <span className="text-red-500">Email es requerido</span>}
               <input
                 type="password"
                 {...register("password", { required: true })}
                 className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md"
                 placeholder="Password"
               />
-              {errors.password && <span className="text-red-500">Password is required</span>}
+              {errors.password && <span className="text-red-500">Contraseña es requerida</span>}
               <button
                 type="submit"
                 className="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition-colors"
@@ -65,7 +65,7 @@ function RegisterPage(){// componente de registro
             </form>
 
             <p className="text-center text-white mt-4">
-              Already have an account? <a href="/login" className="text-indigo-600 hover:underline">Login</a>
+              ya tienes una cuenta? <a href="/login" className="text-indigo-600 hover:underline">Login</a>
             </p>
 
           </div>
@@ -73,4 +73,5 @@ function RegisterPage(){// componente de registro
     );      
 }
 
-export default RegisterPage
+export default RegisterPage // exportamos el componente para poder usarlo en otras partes de la aplicacion
+
