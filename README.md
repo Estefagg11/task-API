@@ -6,7 +6,7 @@ Este proyecto es una aplicación web completa para la gestión de tareas persona
 Consiste en un backend API construido con Node.js (Express y TypeScript) y un frontend interactivo desarrollado con React. 
 La aplicación permite a los usuarios registrarse, iniciar sesión y gestionar sus tareas, incluyendo crear, ver, editar, eliminar y marcar tareas como completadas. 
 
-Características Principales
+Características Principales:
 
 *   Registro de usuarios.
 *   Inicio y cierre de sesión (gestionado principalmente en el cliente con token JWT).
@@ -16,7 +16,7 @@ Características Principales
 *   Validación de datos en las entradas del backend.
 *   Interfaz de usuario dinámica construida con React.
 
-Tecnologías Utilizadas
+Tecnologías Utilizadas:
 
 Backend:
 
@@ -29,7 +29,7 @@ Backend:
 *   bcrypt (Hash de contraseñas)
 *   express-validator (Validación de peticiones)
 *   CORS, Morgan (Middlewares)
-*   dotenv (Carga de variables de entorno - *Aunque algunos valores están hardcodeados*)
+*   dotenv (Carga de variables de entorno)
 
 
 Frontend:
@@ -43,7 +43,7 @@ Frontend:
 *   Tailwind CSS (Estilizado)
 *   Context API de React (Gestión de estado)
 
-Prerrequisitos
+Prerrequisitos:
 
 Antes de instalar y ejecutar el proyecto, asegúrate de tener instalado lo siguiente:
 
@@ -52,7 +52,7 @@ Antes de instalar y ejecutar el proyecto, asegúrate de tener instalado lo sigui
 *   Git
 *   Una instancia de MongoDB corriendo y accesible.
 
-Instalación
+Instalación:
 
 
 1.  Clonar el Repositorio:
@@ -67,7 +67,7 @@ Instalación
     npm install --save-dev @types/bcryptjs @types/cors @types/express @types/jsonwebtoken @types/morgan
 
 
-## Ejecución
+Ejecución:
 
 Para ejecutar el proyecto completo, necesitas iniciar tanto el servidor backend como la aplicación frontend en terminales separadas.
 
@@ -83,7 +83,7 @@ Para ejecutar el proyecto completo, necesitas iniciar tanto el servidor backend 
 
 Asegúrate de que ambos procesos sigan corriendo para que la aplicación funcione.
 
-## Uso de la Aplicación
+Uso de la Aplicación:
 
 1.  Abre la aplicación frontend en tu navegador (`http://localhost:5173`).
 2.  Si eres un usuario nuevo, navega a la página de "Register" para crear una cuenta.
