@@ -4,22 +4,13 @@ const swaggerOptions: swaggerJsdoc.Options = {
   definition: {
     openapi: '3.0.0', // Especificación OpenAPI versión 3.0.0
     info: {
-      title: 'Task Management API', // Título de tu API
-      version: '1.0.0', // Versión de tu API
+      title: 'Task Management API', // Título de la API
+      version: '1.0.0', // Versión de  API
       description: 'API para gestionar tareas y usuarios, incluyendo autenticación, validación y persistencia con Mongoose.', // Descripción general de la API
-      contact: { // Información de contacto (Opcional)
-          name: 'Tu Nombre o Empresa',
-          url: 'https://tu-sitio-web.com', // Reemplaza con tu sitio o perfil
-          email: 'tu-email@example.com' // Reemplaza con tu email
-      },
-       license: { // Información de licencia (Opcional)
-           name: 'MIT', // O la licencia que uses
-           url: 'https://opensource.org/licenses/MIT' // URL de la licencia
-       }
     },
     servers: [ // Define los servidores donde la API está disponible
       {
-        // URL base de la API, confirmada por app.ts
+        // URL base de la API
         url: 'http://localhost:5001/api',
         description: 'Servidor de desarrollo local'
       },
@@ -32,9 +23,6 @@ const swaggerOptions: swaggerJsdoc.Options = {
 
     components: { // Definiciones reusables (schemas, seguridad)
       schemas: {
-        // =====================================
-        // SCHEMAS BASADOS EN MODELOS Y TIPOS COMPARTIDOS (task.ts, user.ts, repositorios, validaciones)
-        // =====================================
 
         // Schema para la respuesta completa de una tarea
         Task: {
@@ -137,10 +125,9 @@ const swaggerOptions: swaggerJsdoc.Options = {
       }
 
     },
-  }, // <-- Cierre correcto de 'definition'
+  }, 
 
-  // La propiedad 'apis' debe estar aquí, al mismo nivel que 'definition'
-  apis: ['./src/controllers/*.ts'], // <-- **Asegúrate de que esta ruta sea correcta** si tus archivos .ts están en src/controllers
+  apis: ['./src/controllers/*.ts'], // Ruta a los archivos de los controladores donde están las anotaciones Swagger
 };
 
 export default swaggerOptions;

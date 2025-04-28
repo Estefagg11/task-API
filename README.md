@@ -62,10 +62,17 @@ Instalación:
 
 2.  Instalar Dependencias:
     
-    npm install bcryptjs cors dotenv express express-validator jsonwebtoken mongoose morgan
+    npm install bcryptjs cors dotenv express express-validator jsonwebtoken mongoose morgan swagger-jsdoc swagger-ui-express
 
-    npm install --save-dev @types/bcryptjs @types/cors @types/express @types/jsonwebtoken @types/morgan
+    npm install --save-dev @types/bcryptjs @types/cors @types/express @types/jsonwebtoken @types/morgan @types/swagger-jsdoc @types/swagger-ui-express nodemon ts-node
 
+3. Cofigurar base de datos:
+
+    En el archivo de database.ts realiza el siguiente cambio:
+
+    const mongoURI: string = 'pon-aqui-tu-uri-de-mongodb';
+
+    URI de conexión a MongoDB Atlas (reemplaza "pon-aqui-tu-uri-de-mongodb" por tu propia conexión)
 
 Ejecución:
 
@@ -76,7 +83,7 @@ Para ejecutar el proyecto completo, necesitas iniciar tanto el servidor backend 
    
     El servidor Express se iniciará (por defecto en el puerto 5001) y te lo indicará en la consola.
 
-2.  **Iniciar el Frontend:**
+2.  Iniciar el Frontend:
     Abre otra terminal, navega al directorio `frontend (client)` y ejecuta npm run dev
 
     La aplicación React se iniciará (típicamente en `http://localhost:5173`) y se abrirá en tu navegador predeterminado.
@@ -92,3 +99,5 @@ Uso de la Aplicación:
 5.  Usa el botón "Añadir Tarea" para crear nuevas tareas.
 6.  En la lista de tareas, puedes ver los detalles, usar los botones para editar o eliminar una tarea, o marcarla como completada.
 7.  Usa el botón "Logout" en la barra de navegación para cerrar tu sesión.
+
+DOCUMENTACION: http://localhost:5001/api-docs/

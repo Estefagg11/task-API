@@ -316,9 +316,9 @@ export class TaskController { // Clase que contiene los métodos para manejar la
    *           type: string
    *         required: true
    *         description: El ID de la tarea a marcar como completada (MongoDB ObjectId como string).
-   *     # No hay requestBody porque tu servicio solo establece completed: true
+   *     # No hay requestBody porque el servicio solo establece completed: true
    *     responses:
-   *       200: # Tu servicio devuelve la tarea actualizada con status 200
+   *       200: # rl servicio devuelve la tarea actualizada con status 200
    *         description: Tarea marcada como completada exitosamente. Devuelve la tarea actualizada.
    *         content:
    *           application/json:

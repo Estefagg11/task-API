@@ -68,7 +68,7 @@ export class AuthController { // para que sea accesible desde otros archivos, ex
    * @swagger
    * /users/login: # Endpoint POST /api/users/login
    *   post:
-   *     summary: "Inicia sesión y obtiene un token JWT." # Encerrado en comillas (buena práctica)
+   *     summary: "Inicia sesión y obtiene un token JWT." 
    *     tags: [Auth]
    *     requestBody:
    *       required: true
@@ -78,26 +78,25 @@ export class AuthController { // para que sea accesible desde otros archivos, ex
    *             $ref: '#/components/schemas/LoginInput' # Referencia al schema de entrada para login
    *     responses:
    *       200:
-   *         description: "Inicio de sesión exitoso. Devuelve token JWT y datos del usuario." # Encerrado en comillas
+   *         description: "Inicio de sesión exitoso. Devuelve token JWT y datos del usuario." 
    *         content:
    *           application/json:
    *             schema:
    *               $ref: '#/components/schemas/AuthResponse' # Referencia al schema de respuesta de autenticación
    *       400:
-   *         # --- CORRECCIÓN AQUÍ: Se añadió la comilla de cierre ---
-   *         description: "Datos de login inválidos (ej: email o contraseña faltantes)" # ¡Faltaba la comilla final!
+   *         description: "Datos de login inválidos (ej: email o contraseña faltantes)" 
    *         content:
    *           application/json:
    *             schema:
    *               $ref: '#/components/schemas/Error'
    *       401:
-   *         description: "Credenciales inválidas" # Ya estaba entre comillas, pero confirmo
+   *         description: "Credenciales inválidas"
    *         content:
    *           application/json:
    *             schema:
    *               $ref: '#/components/schemas/Error'
    *       500:
-   *         description: "Error del servidor." # Encerrado en comillas
+   *         description: "Error del servidor."
    *         content:
    *           application/json:
    *             schema:
@@ -129,12 +128,12 @@ export class AuthController { // para que sea accesible desde otros archivos, ex
    * /users/logout: # Endpoint POST /api/users/logout
    *   post:
    *     summary: Cierra la sesión del usuario.
-   *     description: Este endpoint notifica al servidor que el cliente ha cerrado sesión. No requiere autenticación ni invalida el token JWT en el backend; el cliente es responsable de eliminar su token almacenado. # Descripción basada en tu código
+   *     description: Este endpoint notifica al servidor que el cliente ha cerrado sesión. No requiere autenticación ni invalida el token JWT en el backend; el cliente es responsable de eliminar su token almacenado. 
    *     tags: [Auth]
    *     # No requiere seguridad bearerAuth
    *     # No requiere requestBody
    *     responses:
-   *       200: # Código 200: OK (confirmado por tu código)
+   *       200: # Código 200: OK 
    *         description: Sesión cerrada exitosamente (instrucción para el cliente).
    *         content:
    *           application/json:
@@ -154,7 +153,7 @@ export class AuthController { // para que sea accesible desde otros archivos, ex
 
   
   logout = (req: Request, res: Response): void => {
-    // No es necesario realizar ninguna acción en el servidor si no usas cookies
+    // No es necesario realizar ninguna acción en el servidor si no se usa cookies
     res.status(200).json({
       success: true,
       message: 'Logged out successfully. Please remove the token on the client side.'
