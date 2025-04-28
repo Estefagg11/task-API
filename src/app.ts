@@ -7,6 +7,9 @@ import userRoutes from './routes/user.routes';//importamos las rutas de usuario 
 import taskRoutes from './routes/task.routes';//importamos las rutas de tarea del archivo task.routes.ts
 import { errorMiddleware } from './middleware/error.middleware'; //importamos el middleware de error del archivo error.middleware.ts
 
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
+import swaggerOptions from './swaggerConfig';
 
 
 
@@ -22,6 +25,8 @@ app.use(cors({
 app.use(morgan('dev')); //usamos morgan con el formato dev para mostrar los logs de las peticiones en consola
 app.use(express.json()); //usamos express.json para poder recibir y enviar datos en formato json
 
+const specs = swaggerJsdoc(swaggerOptions); //creamos una variable specs que contiene la configuracion de swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs)); //usamos swagger para documentar la API
 
 app.use('/api/users', userRoutes); //usamos las rutas de usuario en la ruta /api/users
 app.use('/api/tasks', taskRoutes); //usamos las rutas de tarea en la ruta /api/tasks

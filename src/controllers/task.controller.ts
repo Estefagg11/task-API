@@ -11,6 +11,43 @@ export class TaskController { // Clase que contiene los métodos para manejar la
     this.taskService = new TaskService();// Inicializar la propiedad taskService con una nueva instancia de TaskService
   }
 
+  /**
+   * @swagger
+   * /tasks: # La ruta es relativa al base path definido en app.ts (/api/tasks)
+   *   post:
+   *     summary: Crea una nueva tarea para el usuario autenticado.
+   *     tags: [Tasks] # Agrupa este endpoint bajo Tasks
+   *     security: # Este endpoint requiere autenticación
+   *       - bearerAuth: [] # Referencia al esquema de seguridad 'bearerAuth' definido en swaggerConfig.ts
+   *     requestBody: # Descripción del cuerpo de la solicitud
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/TaskInput' # Referencia al schema de entrada para crear tareas
+   *     responses: # Posibles respuestas
+   *       201:
+   *         description: Tarea creada exitosamente.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Task' # Referencia al schema de la tarea completa
+   *       400:
+   *         description: Datos de entrada inválidos.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error' # Referencia al schema de error
+   *       401:
+   *         description: No autenticado (Token JWT inválido o faltante).
+   *       500:
+   *         description: Error del servidor.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   */
+
   createTask = async (req: Request, res: Response): Promise<void> => {// Método para crear una nueva tarea
     try {
       const taskData: ITask = {// Crear un objeto con los datos de la tarea
@@ -30,6 +67,33 @@ export class TaskController { // Clase que contiene los métodos para manejar la
     }
   };
 
+  /**
+   * @swagger
+   * /tasks: # Endpoint GET /api/tasks
+   *   get:
+   *     summary: Obtiene todas las tareas del usuario autenticado.
+   *     tags: [Tasks]
+   *     security:
+   *       - bearerAuth: []
+   *     responses:
+   *       200:
+   *         description: Lista de tareas obtenida exitosamente.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array # La respuesta es un array
+   *               items:
+   *                 $ref: '#/components/schemas/Task' # Cada item del array es una Tarea
+   *       401:
+   *         description: No autenticado (Token JWT inválido o faltante).
+   *       500:
+   *         description: Error del servidor.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   */
+
   getAllTasks = async (req: Request, res: Response): Promise<void> => {
     try {
       const tasks = await this.taskService.getTasks(req.user.id); //obtiene todas las tareas del usuario
@@ -43,6 +107,56 @@ export class TaskController { // Clase que contiene los métodos para manejar la
       });
     }
   };
+
+  /**
+   * @swagger
+   * /tasks/{id}: # Endpoint GET /api/tasks/:id
+   *   get:
+   *     summary: Obtiene una tarea por su ID para el usuario autenticado.
+   *     tags: [Tasks]
+   *     security:
+   *       - bearerAuth: []
+   *     parameters: # Parámetros de la ruta
+   *       - in: path # El parámetro está en la ruta
+   *         name: id # El nombre del parámetro es 'id'
+   *         schema:
+   *           type: string # El tipo de dato es string
+   *         required: true
+   *         description: El ID de la tarea a obtener (MongoDB ObjectId como string).
+   *     responses:
+   *       200:
+   *         description: Tarea obtenida exitosamente.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Task'
+   *       400:
+   *         description: ID de tarea inválido.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       401:
+   *         description: No autenticado (Token JWT inválido o faltante).
+   *       403:
+   *         description: No autorizado para acceder a esta tarea (no pertenece al usuario autenticado).
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       404:
+   *         description: Tarea no encontrada.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       500:
+   *         description: Error del servidor.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   */
 
   getTaskById = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -85,6 +199,62 @@ export class TaskController { // Clase que contiene los métodos para manejar la
       });
     }
   };
+
+  /**
+   * @swagger
+   * /tasks/{id}: # Endpoint PUT /api/tasks/:id
+   *   put:
+   *     summary: Actualiza una tarea existente por su ID para el usuario autenticado.
+   *     tags: [Tasks]
+   *     security:
+   *       - bearerAuth: []
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         schema:
+   *           type: string
+   *         required: true
+   *         description: El ID de la tarea a actualizar (MongoDB ObjectId como string).
+   *     requestBody:
+   *       required: true # Opcional, pero PUT suele esperar un cuerpo completo
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/TaskUpdateInput' # Referencia al schema de entrada para actualizar
+   *     responses:
+   *       200:
+   *         description: Tarea actualizada exitosamente.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Task'
+   *       400:
+   *         description: ID de tarea inválido o datos de entrada inválidos.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       401:
+   *         description: No autenticado (Token JWT inválido o faltante).
+   *       403:
+   *         description: No autorizado para modificar esta tarea (no pertenece al usuario autenticado).
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       404:
+   *         description: Tarea no encontrada.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       500:
+   *         description: Error del servidor.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   */
 
   updateTask = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -130,6 +300,58 @@ export class TaskController { // Clase que contiene los métodos para manejar la
     }
   };
 
+  /**
+   * @swagger
+   * /tasks/{id}/complete: # Endpoint PATCH /api/tasks/:id/complete
+   *   patch: # Usamos PATCH para una actualización parcial (solo completar)
+   *     summary: Marca una tarea como completada por su ID para el usuario autenticado.
+   *     description: Actualiza el estado `completed` de la tarea a `true`. # Describe lo que hace el servicio
+   *     tags: [Tasks]
+   *     security:
+   *       - bearerAuth: []
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         schema:
+   *           type: string
+   *         required: true
+   *         description: El ID de la tarea a marcar como completada (MongoDB ObjectId como string).
+   *     # No hay requestBody porque tu servicio solo establece completed: true
+   *     responses:
+   *       200: # Tu servicio devuelve la tarea actualizada con status 200
+   *         description: Tarea marcada como completada exitosamente. Devuelve la tarea actualizada.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Task'
+   *       400:
+   *         description: ID de tarea inválido.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       401:
+   *         description: No autenticado (Token JWT inválido o faltante).
+   *       403:
+   *         description: No autorizado para modificar esta tarea (no pertenece al usuario autenticado).
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       404:
+   *         description: Tarea no encontrada.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       500:
+   *         description: Error del servidor.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   */
+
   completeTask = async (req: Request, res: Response): Promise<void> => {
     try {
       const { id } = req.params;//obtener el ID de la tarea de los parámetros de la solicitud
@@ -173,6 +395,52 @@ export class TaskController { // Clase que contiene los métodos para manejar la
       });
     }
   };
+
+   /**
+   * @swagger
+   * /tasks/{id}: # Endpoint DELETE /api/tasks/:id
+   *   delete:
+   *     summary: Elimina una tarea por su ID para el usuario autenticado.
+   *     tags: [Tasks]
+   *     security:
+   *       - bearerAuth: []
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         schema:
+   *           type: string
+   *         required: true
+   *         description: El ID de la tarea a eliminar (MongoDB ObjectId como string).
+   *     responses:
+   *       204: # Código 204: No Content (eliminación exitosa)
+   *         description: Tarea eliminada exitosamente (No Content).
+   *       400:
+   *         description: ID de tarea inválido.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       401:
+   *         description: No autenticado (Token JWT inválido o faltante).
+   *       403:
+   *         description: No autorizado para eliminar esta tarea (no pertenece al usuario autenticado).
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       404:
+   *         description: Tarea no encontrada.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       500:
+   *         description: Error del servidor.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   */
 
   deleteTask = async (req: Request, res: Response): Promise<void> => {
     try {

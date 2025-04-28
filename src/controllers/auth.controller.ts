@@ -9,8 +9,40 @@ export class AuthController { // para que sea accesible desde otros archivos, ex
   constructor() { //crear una instancia de AuthService para que AuthController pueda acceder a sus funcionalidades(login y registro)
     this.authService = new AuthService();// Crea una nueva "herramienta" (AuthService) que se encargará de todo lo relacionado con la autenticación (como registrar y autenticar usuarios).
     // Guardamos esa herramienta en la propiedad 'authService' para poder usarla en cualquier parte de esta clase.
-  } 
-
+  }
+  
+  /**
+   * @swagger
+   * /users/register: # Endpoint POST /api/users/register
+   *   post:
+   *     summary: Registra un nuevo usuario.
+   *     tags: [Auth] # Agrupa bajo el tag Auth
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/UserInput' # Referencia al schema de entrada para registrar usuario
+   *     responses:
+   *       201:
+   *         description: Usuario registrado exitosamente y token generado.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/AuthResponse' # Referencia al schema de respuesta de autenticación
+   *       400:
+   *         description: "Datos de registro inválidos (ej: email ya registrado, campos faltantes)"
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error' # Referencia al schema de error
+   *       500:
+   *         description: Error del servidor.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   */ 
   register = async (req: Request, res: Response): Promise<void> => { //creamos un metodo llamado register que recibe una solicitud(req) y una respuesta(res) y devuelve una promesa de tipo void (no devuelve nada, no tiene un valor de retorno util)
     try { //manejo de errores
       const userData: IUser = req.body;// extraemos los datos del usuario del cuerpo de la solicitud(req.body)[email, password, name]. Estos datos se almacenan en la variable userData
@@ -32,6 +64,46 @@ export class AuthController { // para que sea accesible desde otros archivos, ex
     }
   };
 
+  /**
+   * @swagger
+   * /users/login: # Endpoint POST /api/users/login
+   *   post:
+   *     summary: "Inicia sesión y obtiene un token JWT." # Encerrado en comillas (buena práctica)
+   *     tags: [Auth]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/LoginInput' # Referencia al schema de entrada para login
+   *     responses:
+   *       200:
+   *         description: "Inicio de sesión exitoso. Devuelve token JWT y datos del usuario." # Encerrado en comillas
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/AuthResponse' # Referencia al schema de respuesta de autenticación
+   *       400:
+   *         # --- CORRECCIÓN AQUÍ: Se añadió la comilla de cierre ---
+   *         description: "Datos de login inválidos (ej: email o contraseña faltantes)" # ¡Faltaba la comilla final!
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       401:
+   *         description: "Credenciales inválidas" # Ya estaba entre comillas, pero confirmo
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       500:
+   *         description: "Error del servidor." # Encerrado en comillas
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   */
+
   login = async (req: Request, res: Response): Promise<void> => { //creamos un metodo llamado login que recibe una solicitud(req) y una respuesta(res) y devuelve una promesa de tipo void (no devuelve nada, no tiene un valor de retorno util)
     try {//manejo de errores
       const { email, password } = req.body;//extraemos el email y la contraseña del cuerpo de la solicitud(req.body)  y los almacenamos en las variables email y password
@@ -51,6 +123,34 @@ export class AuthController { // para que sea accesible desde otros archivos, ex
       });
     }
   };
+
+  /**
+   * @swagger
+   * /users/logout: # Endpoint POST /api/users/logout
+   *   post:
+   *     summary: Cierra la sesión del usuario.
+   *     description: Este endpoint notifica al servidor que el cliente ha cerrado sesión. No requiere autenticación ni invalida el token JWT en el backend; el cliente es responsable de eliminar su token almacenado. # Descripción basada en tu código
+   *     tags: [Auth]
+   *     # No requiere seguridad bearerAuth
+   *     # No requiere requestBody
+   *     responses:
+   *       200: # Código 200: OK (confirmado por tu código)
+   *         description: Sesión cerrada exitosamente (instrucción para el cliente).
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object # Define la estructura de la respuesta del controlador de logout
+   *               properties:
+   *                 success: { type: 'boolean', example: true }
+   *                 message: { type: 'string', example: 'Logged out successfully. Please remove the token on the client side.' }
+   *               required: ['success', 'message']
+   *       500: # Código 500: Internal Server Error (si hay algún error inesperado)
+   *         description: Error del servidor.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   */
 
   
   logout = (req: Request, res: Response): void => {
